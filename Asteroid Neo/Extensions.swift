@@ -10,11 +10,22 @@ import UIKit
 
 extension UITextField {
     // date picker view extension for integrating it into the textField
-    func setInputViewDatePicker(target: Any, selector: Selector) {
+    func setInputViewDatePicker(date: Date, minimumDate: Date? = nil, maximum: Date? = nil, target: Any, selector: Selector) {
         
         let datePicker = UIDatePicker(frame: CGRect(x: 0, y: 0, width: AppConfiguration.screenWidth, height: 216))
     
         datePicker.datePickerMode = .date
+        
+        if minimumDate != nil {
+            datePicker.minimumDate = minimumDate
+        }
+        
+        if maximum != nil {
+            datePicker.maximumDate = maximum
+        }
+        
+        
+        datePicker.date = date
         if #available(iOS 14, *) {
           datePicker.preferredDatePickerStyle = .wheels
           datePicker.sizeToFit()

@@ -28,8 +28,11 @@ class HomeViewController: UIViewController {
     var viewModel = HomeViewModel()
     var dataChart = [ChartDataEntry]()
     
-    var startDate: String = ""
-    var endDate: String = ""
+    var startDateString: String = ""
+    var endDateString: String = ""
+    
+    var startDate = Date()
+    var endDate = Date()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +42,7 @@ class HomeViewController: UIViewController {
         viewModel.updateLineChart = { dataChart in
             self.dataChart = dataChart
             DispatchQueue.main.async {
-                let set = LineChartDataSet(entries: self.dataChart, label: "\(self.startDate)  to  \(self.endDate)")
+                let set = LineChartDataSet(entries: self.dataChart, label: "\(self.startDateString)  to  \(self.endDate)")
                 let data = LineChartData(dataSet: set)
                 self.lineCharView.data = data
             }
@@ -68,8 +71,26 @@ class HomeViewController: UIViewController {
     func setUpTextField() {
         startDateTextField.tag = 0
         endDateTextField.tag = 101
-        startDateTextField.setInputViewDatePicker(target: self, selector: #selector(tapDoneStartDate))
-        endDateTextField.setInputViewDatePicker(target: self, selector: #selector(tapDoneEndDate))
+//        startDate.maximumDate = Date()
+//        startDate.maximumDate = Date()
+//        endDate.minimumDate = startDate.date
+//        endDate.maximumDate = Date() > Calendar.current.date(byAdding: .day, value: 6, to: startDate.date)! ? Calendar.current.date(byAdding: .day, value: 6, to: startDate.date) : Date()
+//        startDateTextField.setInputViewDatePicker(target: self, selector: #selector(tapDoneStartDate))
+        
+//        startDateTextField.setInputViewDatePicker(minimumDate: nil, maximumDate: Date(), target: self, selector: #selector(tapDoneStartDate))
+        
+        startDateTextField.setInputViewDatePicker(date: Date(), minimumDate: nil, maximum: nil, target: self, selector: #selector(tapDoneStartDate))
+        
+        endDateTextField.setInputViewDatePicker(date: Date(), minimumDate: nil, maximum: nil, target: self, selector: #selector(tapDoneEndDate))
+        
+        
+//        startDateTextField.setIn
+        
+        var date = (Date() > Calendar.current.date(byAdding: .day, value: 6, to: startDate)! ? Calendar.current.date(byAdding: .day, value: 6, to: startDate) : Date())!
+        
+//        endDateTextField.setInputViewDatePicker(minimumDate: nil, maximumDate: date, target: self, selector: #selector(tapDoneEndDate))
+        
+//        endDateTextField.setInputViewDatePicker(target: self, selector: #selector(tapDoneEndDate))
     }
     
     
@@ -85,7 +106,7 @@ class HomeViewController: UIViewController {
             return
         }
         
-        self.startDate = startDate
+        self.startDateString = startDate
         
         guard let endDate = endDateTextField.text, endDate.count != 0 else {
             endDateTextField.shake()
@@ -94,7 +115,7 @@ class HomeViewController: UIViewController {
             return
         }
         
-        self.endDate = endDate
+        self.endDateString = endDate
         callingAPI(startDate: startDate, endDate: endDate)
     }
     
@@ -122,8 +143,14 @@ class HomeViewController: UIViewController {
         if let datePicker = self.startDateTextField.inputView as? UIDatePicker {
             let dateformatter = DateFormatter()
             dateformatter.dateStyle = .medium
+            startDate = datePicker.date
             // Using the extension for converting the date to the required string
             self.startDateTextField.text = dateformatter.string(from: datePicker.date).convertDateString(dateString: datePicker.date, fromFormat: "YYYY-MM-DD hh:mm:ss ZZZZ", toFormat: "YYYY-MM-dd")
+            
+            startDateTextField.setInputViewDatePicker(date: startDate, minimumDate: nil, maximum: endDate, target: self, selector: #selector(tapDoneStartDate))
+            
+            endDateTextField.setInputViewDatePicker(date: endDate, minimumDate: startDate, maximum: Date(), target: self, selector: #selector(tapDoneEndDate))
+            
         }
         self.startDateTextField.resignFirstResponder()
     }
@@ -133,7 +160,11 @@ class HomeViewController: UIViewController {
         if let datePicker = self.endDateTextField.inputView as? UIDatePicker {
             let dateformatter = DateFormatter()
             dateformatter.dateStyle = .medium
+            endDate = datePicker.date
             self.endDateTextField.text = dateformatter.string(from: datePicker.date).convertDateString(dateString: datePicker.date, fromFormat: "YYYY-MM-DD hh:mm:ss ZZZZ", toFormat: "YYYY-MM-dd")
+            startDateTextField.setInputViewDatePicker(date: startDate, minimumDate: Date(), maximum: endDate, target: self, selector: #selector(tapDoneStartDate))
+            
+            endDateTextField.setInputViewDatePicker(date: endDate, minimumDate: startDate, maximum: Date(), target: self, selector: #selector(tapDoneEndDate))
         }
         // Resigning the text field as the first responder
         self.endDateTextField.resignFirstResponder()
