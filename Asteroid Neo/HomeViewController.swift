@@ -71,26 +71,9 @@ class HomeViewController: UIViewController {
     func setUpTextField() {
         startDateTextField.tag = 0
         endDateTextField.tag = 101
-//        startDate.maximumDate = Date()
-//        startDate.maximumDate = Date()
-//        endDate.minimumDate = startDate.date
-//        endDate.maximumDate = Date() > Calendar.current.date(byAdding: .day, value: 6, to: startDate.date)! ? Calendar.current.date(byAdding: .day, value: 6, to: startDate.date) : Date()
-//        startDateTextField.setInputViewDatePicker(target: self, selector: #selector(tapDoneStartDate))
-        
-//        startDateTextField.setInputViewDatePicker(minimumDate: nil, maximumDate: Date(), target: self, selector: #selector(tapDoneStartDate))
-        
         startDateTextField.setInputViewDatePicker(date: Date(), minimumDate: nil, maximum: nil, target: self, selector: #selector(tapDoneStartDate))
         
         endDateTextField.setInputViewDatePicker(date: Date(), minimumDate: nil, maximum: nil, target: self, selector: #selector(tapDoneEndDate))
-        
-        
-//        startDateTextField.setIn
-        
-        var date = (Date() > Calendar.current.date(byAdding: .day, value: 6, to: startDate)! ? Calendar.current.date(byAdding: .day, value: 6, to: startDate) : Date())!
-        
-//        endDateTextField.setInputViewDatePicker(minimumDate: nil, maximumDate: date, target: self, selector: #selector(tapDoneEndDate))
-        
-//        endDateTextField.setInputViewDatePicker(target: self, selector: #selector(tapDoneEndDate))
     }
     
     
