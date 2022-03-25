@@ -15,6 +15,7 @@ class NetworkManager {
     
     private init() { }
     
+    
     func callingHTTPAPI(api: String, completion: @escaping (_ responsedata: AsteroidModel?, _ error: Error?) -> Void) {
         
         guard let url = URL(string: api) else {

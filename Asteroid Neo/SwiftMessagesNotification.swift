@@ -14,6 +14,7 @@ class ShowNotificationMessages {
     
     static let sharedInstance = ShowNotificationMessages()
     
+    // Method for showing sucess
     func showSuccessSnackBar(message: String) {
         let info = MessageView.viewFromNib(layout: .messageView)
         info.configureTheme(.success)
@@ -27,6 +28,8 @@ class ShowNotificationMessages {
         SwiftMessages.show(config: infoConfig, view: info)
     }
     
+    
+    // Method for showing the warning alert
     func warningView(message: String) {
         let success = MessageView.viewFromNib(layout: .messageView)
         success.configureTheme(.warning)

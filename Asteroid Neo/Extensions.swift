@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 extension UITextField {
-    
+    // date picker view extension for integrating it into the textField
     func setInputViewDatePicker(target: Any, selector: Selector) {
         
         let datePicker = UIDatePicker(frame: CGRect(x: 0, y: 0, width: AppConfiguration.screenWidth, height: 216))
@@ -47,7 +47,7 @@ extension String {
 }
 
 extension UIView {
-    
+    // Extension of the View for the shake animation
     func shake() {
         let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
         animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)

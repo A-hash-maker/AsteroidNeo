@@ -10,7 +10,7 @@ import UIKit
 
 
 struct AppConfiguration {
-    
+    // Constants for the ScreenWidth
     static let screenWidth = UIScreen.main.bounds.width
     
 }

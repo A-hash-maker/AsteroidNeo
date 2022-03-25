@@ -64,9 +64,7 @@ class HomeViewController: UIViewController {
         
     }
     
-    
-    
-    // Setting up functionality for the
+    // Setting up functionality for the text Field
     func setUpTextField() {
         startDateTextField.tag = 0
         endDateTextField.tag = 101
@@ -79,7 +77,10 @@ class HomeViewController: UIViewController {
     @IBAction func submitBtnTapped(_ sender: UIButton) {
         
         guard let startDate = startDateTextField.text, startDate.count != 0 else {
+            
+            // Shaking the text field if start date textfield is empty
             startDateTextField.shake()
+            // Showing alert if start date is not given by the user
             ShowNotificationMessages.sharedInstance.warningView(message: "Please enter a start date")
             return
         }
@@ -88,6 +89,7 @@ class HomeViewController: UIViewController {
         
         guard let endDate = endDateTextField.text, endDate.count != 0 else {
             endDateTextField.shake()
+            // Showing the alert if end date is not given by the user
             ShowNotificationMessages.sharedInstance.warningView(message: "Please enter a end date")
             return
         }
@@ -96,15 +98,17 @@ class HomeViewController: UIViewController {
         callingAPI(startDate: startDate, endDate: endDate)
     }
     
+    
+    // Method for calling API
     func callingAPI(startDate: String, endDate: String) {
-        
-        
         let baseURLString = "https://api.nasa.gov/neo/rest/v1/feed?start_date=\(startDate)&end_date=\(endDate)&api_key=DEMO_KEY"
         
+        // Loader started
         spinner.startAnimating()
         
         viewModel.callingHTPPAPI(api: baseURLString) { sucess in
             DispatchQueue.main.async {
+                // Loader stop here
                 self.spinner.stopAnimating()
             }
         }
@@ -113,24 +117,25 @@ class HomeViewController: UIViewController {
     
     
     // Done button functionality
-    
     @objc func tapDoneStartDate() {
         
         if let datePicker = self.startDateTextField.inputView as? UIDatePicker {
             let dateformatter = DateFormatter()
             dateformatter.dateStyle = .medium
+            // Using the extension for converting the date to the required string
             self.startDateTextField.text = dateformatter.string(from: datePicker.date).convertDateString(dateString: datePicker.date, fromFormat: "YYYY-MM-DD hh:mm:ss ZZZZ", toFormat: "YYYY-MM-dd")
         }
         self.startDateTextField.resignFirstResponder()
     }
     
+    // Done button functionality for the end date
     @objc func tapDoneEndDate() {
-        
         if let datePicker = self.endDateTextField.inputView as? UIDatePicker {
             let dateformatter = DateFormatter()
             dateformatter.dateStyle = .medium
             self.endDateTextField.text = dateformatter.string(from: datePicker.date).convertDateString(dateString: datePicker.date, fromFormat: "YYYY-MM-DD hh:mm:ss ZZZZ", toFormat: "YYYY-MM-dd")
         }
+        // Resigning the text field as the first responder
         self.endDateTextField.resignFirstResponder()
     }
 }

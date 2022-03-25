@@ -8,6 +8,8 @@
 import Foundation
 import SwiftyJSON
 
+// MARK:- AsteroidModel
+
 struct AsteroidModel: Codable {
     let links: WelcomeLinks
     let elementCount: Int

@@ -13,11 +13,13 @@ class HomeViewModel: NSObject {
     var asteroidModel: AsteroidModel?
     var dataSet = [ChartDataEntry]()
     
+    // Call Backs for updating the data
     var updateLineChart: ((_ data: [ChartDataEntry]) -> Void)?
     var fastestAstroid: ((_ id: String, _ speed: String) -> Void)?
     var closestAstroid: ((_ id: String, _ speed: String) -> Void)?
     var averageSizeOfAstroid: ((_ speed: String) -> Void)?
     
+    // dictionary for storing and calculating the data
     var astroidDict = [String : (speed: String, distance: String, averageSize:  String)]()
     var astroidDistanceFromEarthDict = [String: String]()
     
@@ -55,6 +57,7 @@ class HomeViewModel: NSObject {
         updateLineChart!(dataSet)
     }
     
+    // Method for doing further processing after hitting the API
     func doFurtherProcessingWithData() {
         
         if let data = self.asteroidModel?.nearEarthObjects{
